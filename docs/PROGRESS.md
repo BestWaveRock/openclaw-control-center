@@ -1,5 +1,22 @@
 # Progress
 
+## Phase 137 (English overview headline now reads Overview Control Center) — Completed
+- Scope:
+  - Make the English top-level overview headline feel more branded by expanding `Overview` to `Overview Control Center`.
+  - Keep navigation labels unchanged and leave Chinese copy as-is.
+- Changed files:
+  - `src/ui/server.ts`
+  - `test/ui-render-smoke.test.ts`
+  - `docs/PROGRESS.md`
+- Implementation:
+  - Added an English-only overview title override for the main page header.
+  - Kept the sidebar nav label as `Overview` so navigation stays short and scannable.
+  - Added a regression assertion to lock the new headline behavior in place.
+- Verification:
+  - `npm run build`
+  - `npm test`
+  - `npm run smoke:ui`
+
 ## Phase 136 (README screenshots now match page language) — Completed
 - Scope:
   - Make the public README screenshots language-consistent so Chinese copy uses Chinese screenshots and English copy uses English screenshots.

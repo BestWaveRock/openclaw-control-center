@@ -357,6 +357,15 @@ test("overview focus ring keeps a compact English label and stable inner layout"
   assert(source.includes("max-width: 56px;"));
 });
 
+test("overview page title expands to Overview Control Center in English only", async () => {
+  const source = await readFile("src/ui/server.ts", "utf8");
+  assert(source.includes('function resolveDashboardSectionTitle(section: DashboardSectionLink, language: UiLanguage): string {'));
+  assert(source.includes('if (language === "en" && section.key === "overview") {'));
+  assert(source.includes('return "Overview Control Center";'));
+  assert(source.includes("const sectionTitle = resolveDashboardSectionTitle(sectionMeta, options.language);"));
+  assert(source.includes('<h2 class="section-title">${escapeHtml(sectionTitle)}</h2>'));
+});
+
 test("usage dashboard includes token type share and cron token share sections", async () => {
   const source = await readFile("src/ui/server.ts", "utf8");
   assert(source.includes("AI 用量构成（全部会话）"));

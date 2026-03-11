@@ -2403,6 +2403,13 @@ function dashboardSectionLinks(language: UiLanguage): DashboardSectionLink[] {
   });
 }
 
+function resolveDashboardSectionTitle(section: DashboardSectionLink, language: UiLanguage): string {
+  if (language === "en" && section.key === "overview") {
+    return "Overview Control Center";
+  }
+  return section.label;
+}
+
 function resolveGlobalVisibilitySignalStatus(
   model: GlobalVisibilityViewModel,
   taskType: GlobalVisibilityTaskRow["taskType"],
@@ -3452,6 +3459,7 @@ async function renderHtml(
         : options.section;
   const usageCostMode: UsageCostMode = "full";
   const sectionMeta = sectionLinks.find((item) => item.key === activeSection) ?? sectionLinks[0];
+  const sectionTitle = resolveDashboardSectionTitle(sectionMeta, options.language);
   const sectionLeadText =
     activeSection === "overview"
       ? t(
@@ -7182,7 +7190,7 @@ async function renderHtml(
     <main class="panel">
       <header class="section-hero-head">
         <div class="section-head-copy">
-          <h2 class="section-title">${escapeHtml(sectionMeta.label)}</h2>
+          <h2 class="section-title">${escapeHtml(sectionTitle)}</h2>
           <div class="section-blurb">${escapeHtml(sectionLeadText)}</div>
         </div>
         <div class="section-head-actions">
