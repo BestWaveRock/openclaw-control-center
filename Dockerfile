@@ -18,13 +18,6 @@ RUN pnpm cache clean
 
 # 5. 再拷贝源码 & 构建
 COPY . .
-RUN pnpm run build
-
-# 6. 创建非 root 用户，提高安全性
-# USER node
-# 或者使用 alpine 的 adduser 指令
-# RUN addgroup -g 1000 appgroup && \
-#     adduser -u 1000 -G appgroup -g 'App Group' appuser
 
 # --- 编译阶段结束 ---
 
