@@ -15,8 +15,6 @@ RUN pnpm run build      # 默认输出 dist/ 目录
 
 
 # 2. -------------- 运行阶段 --------------
-FROM node:22-alpine
-
 RUN npm run smoke:ui
 RUN UI_MODE=true npm run dev
 
