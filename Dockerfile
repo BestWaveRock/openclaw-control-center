@@ -15,13 +15,17 @@ RUN pnpm run build      # 默认输出 dist/ 目录
 
 
 # 2. -------------- 运行阶段 --------------
-FROM nginx:alpine
+FROM alpine:latest
+
+RUN npm run build
+RUN npm run smoke:ui
+RUN UI_MODE=true npm run dev
 
 # 把构建产物放到 nginx 默认 html 目录
-COPY --from=builder /app/dist /usr/share/nginx/html
+# COPY --from=builder /app/dist /usr/share/nginx/html
 
 # 可选：用自己写的 nginx.conf
 # COPY nginx.conf /etc/nginx/nginx.conf
 
-EXPOSE 80
+EXPOSE 4310
 CMD ["nginx", "-g", "daemon off;"]
