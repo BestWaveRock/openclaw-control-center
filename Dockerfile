@@ -19,5 +19,6 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
 EXPOSE ${PORT}
 
 # 10. 防止容器意外退出（守护进程模式）
-CMD ["UI_MODE=true","npm", "run", "dev"]
+RUN npm -v
+RUN npm run dev
 
