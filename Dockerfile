@@ -26,5 +26,10 @@ COPY --from=builder /app/node_modules ./node_modules
 
 EXPOSE 4310
 
-# 使用 node 运行你的入口文件
-CMD ["node", "dist/index.js"]
+# 使用环境变量强制指定运行模式和 Gateway 地址
+ENV GATEWAY_URL=ws://192.168.2.188:18789
+ENV NODE_ENV=production
+
+# 确保执行的是启动服务器的命令，如果是 openclaw 编译出的 mission-control
+# 通常需要带上 --serve 或类似的参数，防止它跑完 monitor 就退出
+CMD ["node", "dist/index.js", "--serve"]
