@@ -1,38 +1,10 @@
-FROM node:22-alpine AS builder
-
-WORKDIR /app
-
-# 1. 使用官方 pnpm (避免 npm 干扰)
-RUN npm config set registry https://registry.npmjs.org \
-    && npm install -g pnpm
-
-# 2. 先拷贝包管理文件，利用缓存
-COPY package*.json ./
-
-# 3. 安装依赖（使用 --prod 减小体积）
-RUN pnpm install --prod && \
-    rm -rf /root/.npm
-
-# 4. 清理缓存
-RUN pnpm cache clean
-
-# 5. 再拷贝源码 & 构建
-COPY . .
-
-# --- 编译阶段结束 ---
-
 FROM node:22-alpine AS runner
 
 WORKDIR /app
 
-# 使用非 root 用户
-# USER appuser
-
-# 从编译阶段拷贝构建后的文件和依赖
-COPY --from=builder /app/. .
-
-# 清理缓存
-RUN rm -rf /root/.npm /tmp/*
+COPY . ./
+RUN npm install
+RUN npm run build
 
 # 7. 使用环境变量
 ENV NODE_ENV=production
@@ -47,11 +19,5 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
 EXPOSE ${PORT}
 
 # 10. 防止容器意外退出（守护进程模式）
-CMD ["node", "scripts/ui-smoke.js"]
+CMD ["npm", "run", "smoke:ui"]
 
-# 11. 日志驱动配置（可选，需要 docker run 时指定）
-# --log-driver json-file
-# --log-opt max-size=10m
-# --log-opt max-file=5
-
-# 12. 容器重启策略（可选）
