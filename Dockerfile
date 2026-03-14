@@ -38,7 +38,7 @@ WORKDIR /app
 
 # 从编译阶段拷贝构建后的文件和依赖
 COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/scripts./scripts
+COPY --from=builder /app/scripts ./scripts
 COPY --from=builder /app/.env ./
 COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/node_modules ./node_modules
