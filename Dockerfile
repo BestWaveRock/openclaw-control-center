@@ -14,7 +14,7 @@ RUN pnpm install --prod && \
     rm -rf /root/.npm
 
 # 4. 清理缓存
-RUN pnpm cache clean --force
+RUN pnpm cache clean
 
 # 5. 再拷贝源码 & 构建
 COPY . .
