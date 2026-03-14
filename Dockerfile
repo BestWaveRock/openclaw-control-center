@@ -15,13 +15,15 @@ RUN pnpm run build      # 默认输出 dist/ 目录
 
 
 # 2. -------------- 运行阶段 --------------
-RUN npm run smoke:ui
-RUN UI_MODE=true npm run dev
+FROM node:22-alpine AS runner
+WORKDIR /app
 
-# 把构建产物放到 nginx 默认 html 目录
-# COPY --from=builder /app/dist /usr/share/nginx/html
-
-# 可选：用自己写的 nginx.conf
-# COPY nginx.conf /etc/nginx/nginx.conf
+# 只需要从编译阶段拷贝构建后的文件和依赖
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/package.json ./
+COPY --from=builder /app/node_modules ./node_modules
 
 EXPOSE 4310
+
+# 使用 node 运行你的入口文件
+CMD ["node", "dist/index.js"]
