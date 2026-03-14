@@ -18,8 +18,7 @@ RUN pnpm cache clean
 
 # 5. 再拷贝源码 & 构建
 COPY . .
-RUN pnpm run build && \
-    pnpm dedupe --prod
+RUN pnpm run build
 
 # 6. 创建非 root 用户，提高安全性
 # USER node
