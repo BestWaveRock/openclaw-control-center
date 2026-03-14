@@ -15,9 +15,8 @@ RUN pnpm run build      # 默认输出 dist/ 目录
 
 
 # 2. -------------- 运行阶段 --------------
-FROM alpine:latest
+FROM node:22-alpine
 
-RUN npm run build
 RUN npm run smoke:ui
 RUN UI_MODE=true npm run dev
 
@@ -28,4 +27,3 @@ RUN UI_MODE=true npm run dev
 # COPY nginx.conf /etc/nginx/nginx.conf
 
 EXPOSE 4310
-CMD ["nginx", "-g", "daemon off;"]
